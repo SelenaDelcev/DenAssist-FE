@@ -28,7 +28,7 @@ import { useTranslation } from "react-i18next";
 import { ChatMessage, sendMessage, transcribeAudio, handleFileSubmit } from "@/services/chatService";
 import useChatEventSource from "@/hooks/useChatEventSource";
 
-const Chat = forwardRef(({ locale, device }: { locale: string, device: string }, ref) => {
+const Chat = forwardRef(({ locale, device }: { locale: string, device?: string }, ref) => {
   const [sessionId, setSessionId] = useState<string>("");
   const [userMessage, setUserMessage] = useState<string>("");
   const [apiKey] = useState<string>(process.env.NEXT_PUBLIC_OPENAI_API_KEY || "");
