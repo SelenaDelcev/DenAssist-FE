@@ -7,7 +7,7 @@ const Container = styled("div")(() => ({
   overflow: "auto",
 }));
 
-const SupportMenu = ({ cardData, showAdditionalCards, onDeviceChange }: { cardData: any, showAdditionalCards: boolean, onDeviceChange: (device: string) => void }) => {
+const SupportMenu = ({ cardData, showAdditionalCards, onDeviceChange }: { cardData: any, showAdditionalCards: boolean, onDeviceChange?: (device: string) => void }) => {
   const [category, setCategory] = useState('cadcamSystems');
   const [device, setDevice] = useState('CEREC AC');
 
