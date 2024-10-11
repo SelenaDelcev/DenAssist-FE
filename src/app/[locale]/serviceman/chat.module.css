@@ -1,0 +1,21 @@
+.column {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .row {
+    flex: 1 1 auto;
+  }
+  
+  .fullWidth {
+    width: 100%;
+  }
+  
+  .main {
+    background-color: #3d3d3d;
+  }
+  
+  .cardShortcut {
+    background-color: #3d3d3d;
+  }

@@ -1,0 +1,17 @@
+.cardDetail {
+    font-size: 15px !important;;
+}
+
+.card {
+    background-color: #505050 !important;;
+    color: #fff;
+}
+
+.card:hover {
+    background-color: #f43b4b !important;;
+}
+
+.device {
+    margin-top: 10px;
+    background-color: #505050 !important;
+}

@@ -1,0 +1,166 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 999;
+  }
+
+.container {
+    position: absolute;
+    width: 100%;
+    top: 40%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 650px;
+    background-color: #3d3d3d;
+    color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
+}
+
+@media (max-height: 800px) {
+    .container {
+        max-width: 50vw;
+        top: 45%;
+        transform: translate(-50%, -50%) scale(0.85);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        max-width: 95vw;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .rowOfChoices {
+        flex-direction: column; 
+        gap: 10px;
+    }
+    
+    .choice {
+        width: 100%;
+    }
+}
+
+.title {
+    display: flex;
+    align-items: center;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding-left: 1px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rowOfChoices {
+    display: flex;
+    justify-content: space-between; 
+    gap: 10px;
+}
+
+.choice {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    margin-bottom: 5px;
+}
+
+.field {
+    padding: 5px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.prompt {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 20px;
+}
+
+.executeTemplateButton {
+    font-size: 14px;
+    background-color: #3d3d3d;
+    color: white;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.executeTemplateButton:hover {
+    background-color: #575757;
+}
+  
+.addButton {
+    height: 100%;
+    padding: 0px 5px;
+    font-size: 13px;
+    background-color: transparent;
+    color: black;
+    border: 2px solid #2c2c3a;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .addButton:hover {
+    background-color: #2c2c3a;
+    color: #ffff;
+  }
+  
+  .bubbleContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 2px;
+    max-width: 450px;
+  }
+  
+  .wordBubble {
+    background-color: #dc6a6a;
+    padding: 5px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 30px;
+    max-width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 12px;
+  }
+  
+  .deleteButton {
+    background-color: transparent;
+    color: black;
+    border: none;
+    border-radius: 50%;
+    margin-left: 5px;
+    cursor: pointer;
+  }
