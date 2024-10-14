@@ -179,18 +179,19 @@ const SupportMenu = ({ cardData, showAdditionalCards, onDeviceChange }: { cardDa
 
     const defaultDevice = optionMap[newCategory][0];
     setDevice(defaultDevice);
-    onDeviceChange(defaultDevice);  // Pozovi onDeviceChange kada se promeni uređaj
+    onDeviceChange(defaultDevice);
   };
 
   const handleDeviceChange = (event: any) => {
     const selectedDevice = event.target.value;
     setDevice(selectedDevice);
-    onDeviceChange(selectedDevice); // Pozovi onDeviceChange kada se promeni uređaj
+    onDeviceChange(selectedDevice);
   };
 
   return (
     <Container>
       <Grid container spacing={2} direction="column">
+        {/* Render Additional Cards only if showAdditionalCards is true */}
         {showAdditionalCards && (
           <Grid item>
             <Card className={style.device}>
@@ -253,6 +254,7 @@ const SupportMenu = ({ cardData, showAdditionalCards, onDeviceChange }: { cardDa
           </Grid>
         )}
 
+        {/* Main cards that are always displayed */}
         {cardData.map((card: any) => (
           <Grid item key={card.id}>
             <a

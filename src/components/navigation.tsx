@@ -28,7 +28,7 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
-  const companyName = "Positive";
+  const companyName = "Denty";
   return (
     <AppBar position="static">
       <Container maxWidth={false} sx={{ backgroundColor: '#2a2a2a' }}>
@@ -107,20 +107,6 @@ function ResponsiveAppBar() {
           >
             {companyName}
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, my: 2 }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => {
-                  handleCloseNavMenu();
-                  window.location.href = 'https://agreeable-island-02f9b250f.5.azurestaticapps.net';
-                }}
-                sx={{ color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
         </Toolbar>
       </Container>
     </AppBar>

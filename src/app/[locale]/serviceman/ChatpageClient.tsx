@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
-import React, { useState, useRef } from "react";
-import { Container, Grid } from "@mui/material";
+import React, { useState, useRef, useEffect } from "react";
+import { Container, Grid, useMediaQuery } from "@mui/material";
 import ChatBoX from "@/components/chatBox/chatBox";
 import { mockedCardDataRename } from "@/consts/cardDataMockConst";
 import SupportMenu from "@/components/supportMenu/supportMenu";
@@ -16,44 +16,61 @@ export default function ChatPageClient({
   locale: string;
 }) {
   const [showKeywordForm, setShowKeywordForm] = useState(false);
-  const [device, setDevice] = useState<string>("CEREC AC"); // Stanje za device
+  const [device, setDevice] = useState<string>("CEREC AC");
   const chatBoxRef = useRef<any>(null);
 
-  // Funkcija za postavljanje poruke iz KeywordForm
+  const isMobile = useMediaQuery('(max-width:600px)');
+
   const handleFormSubmit = (message: string) => {
     if (chatBoxRef.current) {
       chatBoxRef.current.handleSubmit(message);
     }
   };
 
+  useEffect(() => {
+    if (isMobile) {
+      window.scrollTo(0, 0); 
+    }
+  }, [isMobile]);
+
   const handleCloseKeywordForm = () => {
     setShowKeywordForm(false);
   };
 
-  // Funkcija za promenu izabranog uređaja (device)
   const handleDeviceChange = (selectedDevice: string) => {
-    setDevice(selectedDevice); // Ažuriraj stanje kada se promeni uređaj u SupportMenu
+    setDevice(selectedDevice);
   };
 
   return (
     <main className={styles.main}>
       <Container maxWidth="xl" sx={{ marginRight: '23px' }}>
         <Grid container spacing={6}>
+          {isMobile && (
+            <Grid item xs={12}>
+              <SupportMenu 
+                cardData={mockedCardDataRename} 
+                showAdditionalCards={true}
+                onDeviceChange={handleDeviceChange}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={12} md={8}>
-            {/* Prosledi device u ChatBoX komponentu */}
             <ChatBoX locale={locale} ref={chatBoxRef} device={device} />
             {showKeywordForm && (
               <KeywordForm handleSubmit={handleFormSubmit} onClose={handleCloseKeywordForm} />
             )}
           </Grid>
-          <Grid item xs={15} md={3}>
-            {/* Prosledi handleDeviceChange u SupportMenu da može da ažurira device */}
-            <SupportMenu 
-              cardData={mockedCardDataRename} 
-              showAdditionalCards={true}
-              onDeviceChange={handleDeviceChange} // Prosledi funkciju za promenu uređaja
-            />
-          </Grid>
+
+          {!isMobile && (
+            <Grid item xs={15} md={3}>
+              <SupportMenu 
+                cardData={mockedCardDataRename} 
+                showAdditionalCards={true}
+                onDeviceChange={handleDeviceChange}
+              />
+            </Grid>
+          )}
         </Grid>
       </Container>
     </main>
