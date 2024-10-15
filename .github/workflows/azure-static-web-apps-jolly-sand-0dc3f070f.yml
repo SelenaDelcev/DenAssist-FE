@@ -32,6 +32,8 @@ jobs:
         env:
           NEXT_PUBLIC_CHAT_BE_URL: ${{ secrets.NEXT_PUBLIC_CHAT_BE_URL }}
           NEXT_PUBLIC_CHAT_FE_URL: ${{ secrets.NEXT_PUBLIC_CHAT_FE_URL }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
