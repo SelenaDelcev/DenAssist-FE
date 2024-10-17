@@ -22,7 +22,7 @@ export default function Home({ params: { locale } }) {
   useEffect(() => {
     const initializeGoogleSignIn = () => {
       const client = window.google.accounts.oauth2.initCodeClient({
-        client_id: '411027462084-0mtvkjme6s7b5jh5qjps1jrh926be1su.apps.googleusercontent.com', 
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID, 
         scope: 'openid email profile',
         ux_mode: 'redirect',
         redirect_uri: window.location.origin,
