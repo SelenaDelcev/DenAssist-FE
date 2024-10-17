@@ -70,8 +70,15 @@ export default function Home({ params: { locale } }) {
     });
   };
 
+  const roleAccess = {
+    'komercijalista': ['komercijalista'],
+    'serviser': ['serviser'],
+    'komercservis': ['komercijalista', 'serviser']
+  };
+
   const handleCardClick = (href, requiredRole) => {
-    if (role === requiredRole) {
+    const allowedRoles = roleAccess[role] || [];
+    if (allowedRoles.includes(requiredRole)) {
       window.location.href = href;
     } else {
       alert("Nemate pristup ovoj sekciji.");
