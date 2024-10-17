@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import axios from "axios";
 import {
@@ -9,97 +9,124 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import styles from "./page.module.css";
 
 import { cardLandingDataMockConst } from "../../consts/cardLandingDataMockConst";
-import styles from "./page.module.css";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 
-export default function Home({ params: { locale } }: { params: { locale: string } }) {
+export default function Home({ params: { locale } }) {
   const [userInfo, setUserInfo] = useState(null);
-  const [user, setUser] = useState(null);
   const [role, setRole] = useState(null);
-  const komercijalisti = ["komercijalista2@example.com"];
-  const serviseri = ["selenadelcev411@gmail.com", "serviser1@example.com", "serviser2@example.com"];
+  const [isAuthenticating, setIsAuthenticating] = useState(true);
 
   useEffect(() => {
-    const checkUserAuthentication = async () => {
-      try {
-        const response = await axios.get('https://denty-assistant-be.azurewebsites.net/.auth/me', {
-          withCredentials: true, 
-        });
-        setUserInfo(response.data);
-      } catch (err) {
-        setUserInfo("Nema pristup") 
+    const initializeGoogleSignIn = () => {
+      const client = window.google.accounts.oauth2.initCodeClient({
+        client_id: '411027462084-0mtvkjme6s7b5jh5qjps1jrh926be1su.apps.googleusercontent.com', 
+        scope: 'openid email profile',
+        ux_mode: 'redirect',
+        redirect_uri: window.location.origin,
+      });
+      client.requestCode();
+    };
+  
+    const handleRedirect = () => {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+      if (code) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+        handleAuthCodeResponse({ code });
+      } else {
+        if (window.google) {
+          initializeGoogleSignIn();
+        } else {
+          const script = document.createElement('script');
+          script.src = 'https://accounts.google.com/gsi/client';
+          script.async = true;
+          script.defer = true;
+          script.onload = initializeGoogleSignIn;
+          document.body.appendChild(script);
+        }
       }
     };
 
-    checkUserAuthentication();
+    handleRedirect();
   }, []);
 
-  useEffect(() => {
-    if (userInfo === "Nema pristup")
-      window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=411027462084-0mtvkjme6s7b5jh5qjps1jrh926be1su.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fjolly-sand-0dc3f070f.5.azurestaticapps.net%2F.auth%2Flogin%2Fgoogle%2Fcallback&scope=openid+profile+email&state=redir%3D%252Fchat';
-    if (userInfo && Array.isArray(userInfo)) {
-      setUser(userInfo[0].user_id)
-      if (komercijalisti.includes(user)) {
-        setRole("komercijalista")
-      } else if (serviseri.includes(user)) {
-        setRole("serviser")
-      } else {
-        setRole("nezaposlen")
-      }
-    }
-  }, [userInfo, user]);
+  const handleAuthCodeResponse = (response) => {
+    axios.post('https://denty-assistant-be.azurewebsites.net/auth/google', {
+      code: response.code,
+    }, {
+      withCredentials: true,
+    })
+    .then((res) => {
+      setUserInfo(res.data.user);
+      setRole(res.data.role);
+      setIsAuthenticating(false);
+    })
+    .catch((error) => {
+      console.error('Greška tokom autentifikacije:', error);
+      setIsAuthenticating(false);
+    });
+  };
 
   const handleCardClick = (href, requiredRole) => {
     if (role === requiredRole) {
-      window.location.href = href;  
+      window.location.href = href;
     } else {
-      alert("Nemate pristup ovoj sekciji."); 
+      alert("Nemate pristup ovoj sekciji.");
     }
   };
 
   return (
     <main className={styles.main}>
-      <Container maxWidth={"xl"}>
-        <Grid
-          container
-          spacing={3}
-          justifyContent="center" 
-          alignItems="center"
-        >
-          {cardLandingDataMockConst.map((card, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card 
-                className={styles.card}
-                onClick={() => handleCardClick(card.href, card.title === "Komercijalista" ? "komercijalista" : "serviser")}  
-                sx={{
-                  '&:hover': {
-                    transform: 'scale(1.04)',
-                  }
-                }}
-              >
-                <CardMedia
-                  component="img"
+      {isAuthenticating ? (
+        <p>Autentifikacija u toku...</p>
+      ) : userInfo ? (
+        <Container maxWidth={"xl"}>
+          <Grid
+            container
+            spacing={3}
+            justifyContent="center"
+            alignItems="center"
+          >
+            {cardLandingDataMockConst.map((card, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card
+                  className={styles.card}
+                  onClick={() => handleCardClick(
+                    card.href,
+                    card.title === "Komercijalista" ? "komercijalista" : "serviser"
+                  )}
                   sx={{
-                    width: '90%', 
-                    height: '400px',
-                    margin: 'auto',
+                    '&:hover': {
+                      transform: 'scale(1.04)',
+                    }
                   }}
-                  image={card.image}
-                  alt={card.title}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'center'}}>
-                    {card.title}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+                >
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      width: '90%',
+                      height: '400px',
+                      margin: 'auto',
+                    }}
+                    image={card.image}
+                    alt={card.title}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'center'}}>
+                      {card.title}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      ) : (
+        <p>Autentifikacija nije uspela. Molimo pokušajte ponovo.</p>
+      )}
     </main>
   );
 }
