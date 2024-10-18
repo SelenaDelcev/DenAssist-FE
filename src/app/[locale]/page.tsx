@@ -20,16 +20,29 @@ export default function Home({ params: { locale } }) {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
 
   useEffect(() => {
-    const initializeGoogleSignIn = () => {
-      const client = window.google.accounts.oauth2.initCodeClient({
-        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID, 
-        scope: 'openid email profile',
-        ux_mode: 'redirect',
-        redirect_uri: window.location.origin,
-      });
-      client.requestCode();
-    };
-  
+    const storedUserInfo = localStorage.getItem("userInfo");
+    const storedRole = localStorage.getItem("role");
+
+    if (storedUserInfo && storedRole) {
+      setUserInfo(JSON.parse(storedUserInfo));
+      setRole(storedRole);
+      setIsAuthenticating(false);
+    } else {
+      initializeGoogleSignIn();
+    }
+  }, []);
+
+  const initializeGoogleSignIn = () => {
+    const client = window.google.accounts.oauth2.initCodeClient({
+      client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+      scope: 'openid email profile',
+      ux_mode: 'redirect',
+      redirect_uri: window.location.origin,
+    });
+    client.requestCode();
+  };
+
+  useEffect(() => {
     const handleRedirect = () => {
       const params = new URLSearchParams(window.location.search);
       const code = params.get('code');
