@@ -94,7 +94,7 @@ export default function ChatPageClient({
                     Poređenje se može izvršiti između proizvoda iz asortimana vaše firme ili uopšteno sa <b>tržištem stomatološke opreme</b>.
                   </li>
                   <li>
-                    Postavite pitanje, npr. "Koja je razlika između proizvoda A i proizvoda B?" ili "Kako se proizvod X upoređuje sa sličnim proizvodima na tržištu?".
+                    Postavite pitanje, npr. &quot;Koja je razlika između proizvoda A i proizvoda B?&quot; ili &quot;Kako se proizvod X upoređuje sa sličnim proizvodima na tržištu?&quot;.
                   </li>
                 </ul>
               </li>
