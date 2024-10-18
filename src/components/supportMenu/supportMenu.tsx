@@ -7,7 +7,7 @@ const Container = styled("div")(() => ({
   overflow: "auto",
 }));
 
-const SupportMenu = ({ cardData, showAdditionalCards, onDeviceChange }: { cardData: any, showAdditionalCards: boolean, onDeviceChange?: (device: string) => void }) => {
+const SupportMenu = ({ cardData, showAdditionalCards, onDeviceChange, onUserInfoClick }: { cardData: any, showAdditionalCards: boolean, onDeviceChange?: (device: string) => void, onUserInfoClick?: () => void; }) => {
   const [category, setCategory] = useState('cadcamSystems');
   const [device, setDevice] = useState('CEREC AC');
 
@@ -257,6 +257,22 @@ const SupportMenu = ({ cardData, showAdditionalCards, onDeviceChange }: { cardDa
         {/* Main cards that are always displayed */}
         {cardData.map((card: any) => (
           <Grid item key={card.id}>
+            {card.title === "User info" ? (
+              <Card
+                className={style.card}
+                onClick={onUserInfoClick}
+              >
+                <CardContent>
+                  <Box display="flex" alignItems="center">
+                    {card.icon && React.createElement(card.icon, { style: { marginRight: 8 } })}
+                    <Typography variant="body1" className={style.cardDetail} component="div">
+                      {card.title}
+                    </Typography>
+                  </Box>
+                  <Typography variant="body2">{card.content}</Typography>
+                </CardContent>
+              </Card>
+            ) : (
             <a
               href={card.url}
               target="_self"
@@ -275,6 +291,7 @@ const SupportMenu = ({ cardData, showAdditionalCards, onDeviceChange }: { cardDa
                 </CardContent>
               </Card>
             </a>
+            )}
           </Grid>
         ))}
       </Grid>
