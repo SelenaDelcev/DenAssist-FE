@@ -7,7 +7,7 @@ const Container = styled("div")(() => ({
   overflow: "auto",
 }));
 
-const SupportMenu = ({ cardData, showAdditionalCards, onDeviceChange, onUserInfoClick }: { cardData: any, showAdditionalCards: boolean, onDeviceChange?: (device: string) => void, onUserInfoClick?: () => void; }) => {
+const SupportMenu = ({ cardData, showAdditionalCards, onDeviceChange, onUserInfoClick, onHelpClick }: { cardData: any, showAdditionalCards: boolean, onDeviceChange?: (device: string) => void, onUserInfoClick?: () => void; onHelpClick: () => void;}) => {
   const [category, setCategory] = useState('cadcamSystems');
   const [device, setDevice] = useState('CEREC AC');
 
@@ -279,7 +279,7 @@ const SupportMenu = ({ cardData, showAdditionalCards, onDeviceChange, onUserInfo
               rel="noopener noreferrer"
               style={{ textDecoration: "none" }}
             >
-              <Card className={style.card}>
+              <Card className={style.card} onClick={onHelpClick}>
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     {card.icon && React.createElement(card.icon, { style: { marginRight: 8 } })}
